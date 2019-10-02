@@ -1,0 +1,56 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">Express</h1>
+            <p class="lead">Welcome to Express.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Estado del Basurero</h5>
+
+            <p class="card-text mb-2">Nivel de Basura: <span id="nivel_basura">0%</span></p>
+            <div class="progress mt-0 mb-3">
+              <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="prog_basura"></div>
+            </div>
+            <p class="card-text mb-2">Peso del Basurero: <span id="peso_basura">0%</span></p>
+            <div class="progress mt-0 mb-3">
+              <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="prog_peso"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    socket.on('nivel basura', function(msg){
+      $('#nivel_basura').text(`${msg} %`);
+      $('#prog_basura').css('width', `${msg}%`);
+    });
+    socket.on('peso basura', function(msg){
+      $('#peso_basura').text(`${msg} %`);
+      $('#prog_peso').css('width', `${msg}%`);
+    });
+  </script>
+</body>
+
+</html>
