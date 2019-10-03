@@ -22,21 +22,29 @@ app.set('port', port);
 var server = http.createServer(app);
 //exports.server = server;
 const io = require('socket.io')(server);
-//exports.io = io;
+const Gpio = require('onoff').Gpio;
+const button = new Gpio(4, 'in', 'both');
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
 });
+let num = 0;
 myFunc = () => {
-  const num = Math.floor(Math.random() * (100) + 1);
+  //const num = Math.floor(Math.random() * (100) + 1);
   io.emit('nivel basura', num);
   io.emit('peso basura', num);
+  if(num >= 100){ num = 0; }
+  else { num += 25; }
+
   // console.log(num);
 }
+button.watch((error, value)=>{
+  myFunc();
+});
 
-setInterval(myFunc, 1000);
+// setInterval(myFunc, 1000);
 /**
  * Listen on provided port, on all network interfaces.
  */
